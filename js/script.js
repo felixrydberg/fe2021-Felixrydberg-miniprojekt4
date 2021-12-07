@@ -4,6 +4,9 @@ document.querySelector("header nav form").addEventListener('submit', function(ev
     usersearch()
 });
 let searched = false;
+let slideIndex = 1;
+
+
 
 function fetchURL(url, callback, parameter) {
 
@@ -28,15 +31,19 @@ function errors(error){
 //Flickr galleri 
 function usersearch() {
     if(searched){
+        console.log("Searched = false")
         img = document.querySelectorAll("main figure img");
         for(let i = 0; i < img.length; i++){
             img[i].remove();
-            searched = false;
-            usersearch()
+            console.log("removed image")
         }
+        searched = false;
+        usersearch()
     }
     else {
+        console.log("Searched = true")
         let url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=d880089cfbd925a2ce75ec96ae6c257c&text=${document.querySelector("#flickr-search").value}&media=photos&per_page=${document.querySelector("#flickr-number").value}&format=json&nojsoncallback=1`;
+        searched = true;
         fetchURL(url, getimage, document.querySelector("header nav form select").value);
         document.querySelector("main figure").appendChild(document.createElement("div")).classList.add("blob")
         anime({
@@ -55,7 +62,6 @@ function getimage(json, size){
     for(let i = 0; i < Object.keys(json.photos.photo).length; i++) {
         console.log(`https://live.staticflickr.com/${json.photos.photo[i].server}/${json.photos.photo[i].id}_${json.photos.photo[i].secret}_${size}.jpg`);
         document.querySelector("main figure").appendChild(document.createElement("img")).src = `https://live.staticflickr.com/${json.photos.photo[i].server}/${json.photos.photo[i].id}_${json.photos.photo[i].secret}_${size}.jpg`;
-        searched = true;
     }
     if(size==="m"){
         document.querySelector("main figure").style.height="240px"
@@ -66,36 +72,42 @@ function getimage(json, size){
     else if(size==="b"){
         document.querySelector("main figure").style.height="1024px"
     }
-    pictureSlide()
+    document.querySelector(".button-right").addEventListener('click', function(){
+        pictureSlide(+1)
+    })
+    document.querySelector(".button-left").addEventListener('click', function(){
+        pictureSlide(-1)
+    })
+    pictureSlide("gaming")
 }
 
+function pictureSlide(parameter){
+    showDivs(slideIndex);
+    if( parameter === -1 || parameter === +1 ){
+        plusDivs(parameter)
+    }
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+        console.log(slideIndex);
+    }
 
-
-
-
-
-
-
-
-
-
-// Picture slide
-function pictureSlide() {
-    var slideIndex = 0;
-    carousel();
-    
-    function carousel() {
-      var i;
-      var x = document.querySelectorAll("main figure img");
-      for (i = 0; i < x.length; i++) {
-        x[i].style.display = "none";
-      }
-      slideIndex++;
-      if (slideIndex > x.length) {slideIndex = 1}
-      x[slideIndex-1].style.display = "block";
-      setTimeout(carousel, 2000); // Change image every 2 seconds
+    function showDivs(n) {
+    let i;
+    let x = document.querySelectorAll("main figure img");
+    if (n > x.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = x.length} ;
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+    x[slideIndex-1].style.display = "block";
     }
 }
+
+
+
+
+
+
 
 
 
