@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: white;
+    font: 1rem 'Courier New', Courier, monospace;
+    box-sizing:border-box
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+body {
+    background: #222;
+}
+
+header nav {
+    display: flex;
+
+}
+
+header nav button, header nav form input, header nav form select {
+    background-color: transparent;
+    border: 1px solid white;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    margin: 0 0.3rem 0 0.3rem;
+}
+
+header nav form .nav-option {
+    color: white;
+    background: #222;
+}
+
+header nav form {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid white;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    margin: 0 0.3rem 0 0.3rem;
+}
+
+main {
+    display: grid;
+    grid-template: auto auto auto/ auto;
+    height: 10rem;
+}
+
+main figure {
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30rem;
+}
+
+main h1 {
+    grid-row: 2;
+}
+
+main .list-container {
+    grid-row: 3;
+}
+
+main th, main td, main tr {
+    border: 1px solid white;
+    border-top: none;
+    border-bottom: none;
+    text-align: left;
+    width: 20vh;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+
+
+/* Loading blob */
+
+.blob {
+    height: 0.8rem;
+    width: 0.8rem;
+    background: white;
+    border-radius: 0.2rem;
+}
+
+/* Slideshow */
+
+main figure img {
+    display: none;
+}
