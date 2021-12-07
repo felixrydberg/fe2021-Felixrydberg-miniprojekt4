@@ -3,6 +3,7 @@ document.querySelector("header nav form").addEventListener('submit', function(ev
     event.preventDefault();
     usersearch()
 });
+let searched = false;
 
 function fetchURL(url, callback, parameter) {
 
@@ -26,16 +27,26 @@ function errors(error){
 
 //Flickr galleri 
 function usersearch() {
-    let url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=d880089cfbd925a2ce75ec96ae6c257c&text=${document.querySelector("#flickr-search").value}&media=photos&per_page=${document.querySelector("#flickr-number").value}&format=json&nojsoncallback=1`;
-    fetchURL(url, getimage, document.querySelector("header nav form select").value);
-    document.querySelector("main figure").appendChild(document.createElement("div")).classList.add("blob")
-    anime({
-        targets: '.blob',
-        scale: 2,
-        rotate: 90,
-        duration: 2000,
-        loop: true
-      });
+    if(searched){
+        img = document.querySelectorAll("main figure img");
+        for(let i = 0; i < img.length; i++){
+            img[i].remove();
+            searched = false;
+            usersearch()
+        }
+    }
+    else {
+        let url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=d880089cfbd925a2ce75ec96ae6c257c&text=${document.querySelector("#flickr-search").value}&media=photos&per_page=${document.querySelector("#flickr-number").value}&format=json&nojsoncallback=1`;
+        fetchURL(url, getimage, document.querySelector("header nav form select").value);
+        document.querySelector("main figure").appendChild(document.createElement("div")).classList.add("blob")
+        anime({
+            targets: '.blob',
+            scale: 2,
+            rotate: 90,
+            duration: 2000,
+            loop: true
+        });
+    }
 }
 
 function getimage(json, size){
@@ -44,6 +55,7 @@ function getimage(json, size){
     for(let i = 0; i < Object.keys(json.photos.photo).length; i++) {
         console.log(`https://live.staticflickr.com/${json.photos.photo[i].server}/${json.photos.photo[i].id}_${json.photos.photo[i].secret}_${size}.jpg`);
         document.querySelector("main figure").appendChild(document.createElement("img")).src = `https://live.staticflickr.com/${json.photos.photo[i].server}/${json.photos.photo[i].id}_${json.photos.photo[i].secret}_${size}.jpg`;
+        searched = true;
     }
     if(size==="m"){
         document.querySelector("main figure").style.height="240px"
