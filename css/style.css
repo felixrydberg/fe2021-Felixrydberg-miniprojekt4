@@ -79,6 +79,11 @@ main th, main td, main tr {
     width: 20vh;
 }
 
+main .article-button {
+    display: flex;
+    justify-content: center;
+} 
+
 .red {
     color: red;
 }

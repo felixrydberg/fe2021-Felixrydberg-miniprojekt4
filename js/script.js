@@ -31,17 +31,15 @@ function errors(error){
 //Flickr galleri 
 function usersearch() {
     if(searched){
-        console.log("Searched = false")
         img = document.querySelectorAll("main figure img");
         for(let i = 0; i < img.length; i++){
             img[i].remove();
-            console.log("removed image")
         }
         searched = false;
         usersearch()
     }
     else {
-        console.log("Searched = true")
+        removeblob()
         let url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=d880089cfbd925a2ce75ec96ae6c257c&text=${document.querySelector("#flickr-search").value}&media=photos&per_page=${document.querySelector("#flickr-number").value}&format=json&nojsoncallback=1`;
         searched = true;
         fetchURL(url, getimage, document.querySelector("header nav form select").value);
@@ -57,10 +55,8 @@ function usersearch() {
 }
 
 function getimage(json, size){
-    console.log(json)
-    document.querySelector("main figure").removeChild(document.querySelector(".blob"));
+    removeblob()
     for(let i = 0; i < Object.keys(json.photos.photo).length; i++) {
-        console.log(`https://live.staticflickr.com/${json.photos.photo[i].server}/${json.photos.photo[i].id}_${json.photos.photo[i].secret}_${size}.jpg`);
         document.querySelector("main figure").appendChild(document.createElement("img")).src = `https://live.staticflickr.com/${json.photos.photo[i].server}/${json.photos.photo[i].id}_${json.photos.photo[i].secret}_${size}.jpg`;
     }
     if(size==="m"){
@@ -88,7 +84,6 @@ function pictureSlide(parameter){
     }
     function plusDivs(n) {
         showDivs(slideIndex += n);
-        console.log(slideIndex);
     }
 
     function showDivs(n) {
@@ -103,9 +98,12 @@ function pictureSlide(parameter){
     }
 }
 
-
-
-
+function removeblob() {
+    for(let i = 0; i < document.querySelectorAll(".blob").length; i++){
+        document.querySelector("main figure").removeChild(document.querySelectorAll(".blob")[i]);
+        console.log("removed blob: "[i])
+    }
+}
 
 
 
