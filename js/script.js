@@ -101,7 +101,6 @@ function pictureSlide(parameter){
 function removeblob() {
     for(let i = 0; i < document.querySelectorAll(".blob").length; i++){
         document.querySelector("main figure").removeChild(document.querySelectorAll(".blob")[i]);
-        console.log("removed blob: "[i])
     }
 }
 
